@@ -1,0 +1,12 @@
+{
+  "name": "Zentile",
+  "short_name": "Zentile",
+  "description": "The modern 15 puzzle. Play 3x3, 4x4, 5x5, and 6x6 sliding puzzles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

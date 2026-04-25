@@ -2,7 +2,17 @@
 
 ## Overview
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+pnpm workspace monorepo. Currently hosting **Zentile**, a vanilla HTML/CSS/JS sliding-tile puzzle (15-puzzle) built with Vite. No backend, no TypeScript in the app, no external CDN/Google assets — entirely client-side.
+
+## Zentile Artifact
+
+- Path: `artifacts/zentile/`
+- Stack: Vite + vanilla JS + plain CSS
+- Pages: Home (board-size picker for 3×3 / 4×4 / 5×5 / 6×6) and Game
+- Engine: `src/main.js` (Puzzle class — pointer/touch/mouse/keyboard, animated CSS transforms, guaranteed-solvable random shuffle, win detection, best-times in `localStorage`, win overlay + confetti)
+- Empty cell rests at the top-left in the solved state.
+- SEO: meta tags, Open Graph, JSON-LD Game schema, robots.txt, sitemap.xml, web manifest.
+- Deep-link: `/#play/N` opens the N×N board directly.
 
 ## Stack
 

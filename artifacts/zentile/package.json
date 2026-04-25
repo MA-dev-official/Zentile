@@ -1,0 +1,17 @@
+{
+  "name": "@workspace/zentile",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.js --host 0.0.0.0",
+    "build": "vite build --config vite.config.js",
+    "serve": "vite preview --config vite.config.js --host 0.0.0.0"
+  },
+  "devDependencies": {
+    "@replit/vite-plugin-cartographer": "catalog:",
+    "@replit/vite-plugin-dev-banner": "catalog:",
+    "@replit/vite-plugin-runtime-error-modal": "catalog:",
+    "vite": "catalog:"
+  }
+}
