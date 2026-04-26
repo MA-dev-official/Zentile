@@ -262,10 +262,24 @@ class Puzzle {
     tile.el.style.transition = animated
       ? "transform var(--tile-anim), background var(--tile-anim), box-shadow var(--tile-anim)"
       : "none";
+    tile.el.classList.remove("dragging");
 
     // Mark whether tile is in its solved position (value v should sit at index v)
     if (tile.value === idx) tile.el.classList.add("placed");
     else tile.el.classList.remove("placed");
+  }
+
+  _markMovable() {
+    // Highlight tiles that share row/column with empty (gives mouse users a clear hover hint)
+    const n = this.n;
+    const er = Math.floor(this.emptyIdx / n), ec = this.emptyIdx % n;
+    for (let i = 0; i < this.grid.length; i++) {
+      const v = this.grid[i];
+      if (v === 0) continue;
+      const r = Math.floor(i / n), c = i % n;
+      const movable = !this.solved && (r === er || c === ec);
+      this.tiles[v - 1].el.classList.toggle("movable", movable);
+    }
   }
 
   _coordOf(idx) {
@@ -325,6 +339,7 @@ class Puzzle {
     this._updateMoves();
     this._startTimerIfNeeded();
     this._checkSolved();
+    this._markMovable();
     return true;
   }
 
@@ -338,13 +353,44 @@ class Puzzle {
     this.emptyIdx = idx;
   }
 
-  /* ---------------- Pointer / Touch / Mouse ---------------- */
+  /* ---------------- Pointer / Touch / Mouse ---------------- *
+   * Tiles can be slid by either:
+   *   (a) clicking/tapping a tile in the empty's row or column
+   *   (b) dragging a tile (mouse or touch) toward the empty cell —
+   *       the tile and any tiles between it and the empty follow the
+   *       cursor in real time, and commit on release if dragged far enough.
+   */
+
+  /** Build chain of grid indices from target → toward empty (target included, empty excluded).
+   *  Returns null if target is not in the same row/col as empty. */
+  _slideChain(targetIdx) {
+    if (targetIdx === this.emptyIdx) return null;
+    const n = this.n;
+    const tr = Math.floor(targetIdx / n), tc = targetIdx % n;
+    const er = Math.floor(this.emptyIdx / n), ec = this.emptyIdx % n;
+    const chain = [];
+    if (tr === er) {
+      const step = tc < ec ? 1 : -1;       // how columns advance from target → empty
+      const dir = step;                    // visual movement direction along x: +1 right, -1 left
+      for (let c = tc; c !== ec; c += step) chain.push(tr * n + c);
+      return { axis: "x", dir, chain };
+    }
+    if (tc === ec) {
+      const step = tr < er ? 1 : -1;
+      const dir = step;
+      for (let r = tr; r !== er; r += step) chain.push(r * n + tc);
+      return { axis: "y", dir, chain };
+    }
+    return null;
+  }
+
   _onPointerDown(e) {
     if (this.solved) return;
     const tileEl = e.target.closest(".tile");
     if (!tileEl) return;
     const value = Number(tileEl.getAttribute("data-value"));
     const idx = this.grid.indexOf(value);
+    const slide = this._slideChain(idx);
 
     e.preventDefault();
     try { tileEl.setPointerCapture(e.pointerId); } catch {}
@@ -357,7 +403,20 @@ class Puzzle {
       startX: e.clientX,
       startY: e.clientY,
       moved: false,
+      slide,        // null if tile is not slidable (different row & column than empty)
+      offset: 0,
     };
+
+    if (slide) {
+      // Mark all chain tiles as actively being dragged (no transition during follow)
+      for (const cellIdx of slide.chain) {
+        const v = this.grid[cellIdx];
+        if (v === 0) continue;
+        const t = this.tiles[v - 1];
+        t.el.classList.add("dragging");
+        t.el.style.transition = "none";
+      }
+    }
 
     window.addEventListener("pointermove", this._onPointerMove, { passive: false });
     window.addEventListener("pointerup", this._onPointerUp);
@@ -365,45 +424,67 @@ class Puzzle {
   }
 
   _onPointerMove(e) {
-    if (!this.dragState || e.pointerId !== this.dragState.pointerId) return;
-    const dx = e.clientX - this.dragState.startX;
-    const dy = e.clientY - this.dragState.startY;
-    if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
-      this.dragState.moved = true;
+    const ds = this.dragState;
+    if (!ds || e.pointerId !== ds.pointerId) return;
+    const dx = e.clientX - ds.startX;
+    const dy = e.clientY - ds.startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) ds.moved = true;
+    if (!ds.slide) return;
+
+    e.preventDefault();
+    const max = this.cellSize + this.gap;
+    const delta = ds.slide.axis === "x" ? dx : dy;
+    // Positive when dragging in the slide direction; clamp [0, max]
+    let offset = delta * ds.slide.dir;
+    offset = Math.max(0, Math.min(max, offset));
+    ds.offset = offset;
+
+    for (const cellIdx of ds.slide.chain) {
+      const v = this.grid[cellIdx];
+      if (v === 0) continue;
+      const tile = this.tiles[v - 1];
+      const base = this._coordOf(cellIdx);
+      const ox = ds.slide.axis === "x" ? offset * ds.slide.dir : 0;
+      const oy = ds.slide.axis === "y" ? offset * ds.slide.dir : 0;
+      tile.el.style.transform = `translate3d(${base.x + ox}px, ${base.y + oy}px, 0)`;
     }
   }
 
   _onPointerUp(e) {
-    if (!this.dragState || e.pointerId !== this.dragState.pointerId) return;
     const ds = this.dragState;
+    if (!ds || e.pointerId !== ds.pointerId) return;
     this.dragState = null;
     window.removeEventListener("pointermove", this._onPointerMove);
     window.removeEventListener("pointerup", this._onPointerUp);
     window.removeEventListener("pointercancel", this._onPointerUp);
 
-    const idx = this.grid.indexOf(ds.value);
-    if (idx === -1) return;
+    // Clean up dragging class on all tiles
+    this.board.querySelectorAll(".tile.dragging").forEach(el => el.classList.remove("dragging"));
 
-    if (!ds.moved) {
-      // Treat as tap/click — slide row/column toward empty
-      this._slideTowardEmpty(idx);
+    if (!ds.slide) {
+      // Tile not in same row/col as empty — ignore (no slide possible)
       return;
     }
 
-    // Swipe gesture: determine dominant direction and try to move adjacent tile of empty
-    const dx = e.clientX - ds.startX;
-    const dy = e.clientY - ds.startY;
-    const absX = Math.abs(dx), absY = Math.abs(dy);
-    const dir = absX > absY ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up");
-    this._slideByDirection(dir);
+    const idx = this.grid.indexOf(ds.value);
+    if (idx === -1) return;
+
+    const max = this.cellSize + this.gap;
+    const passedThreshold = ds.offset > max * 0.4;
+
+    if (!ds.moved || passedThreshold) {
+      // Click without drag = full slide; or drag past 40% threshold = commit slide
+      this._slideTowardEmpty(idx);
+    } else {
+      // Snap back to original positions
+      this._placeAll(true);
+    }
   }
 
   _slideByDirection(dir) {
     const n = this.n;
     const er = Math.floor(this.emptyIdx / n), ec = this.emptyIdx % n;
     let target = -1;
-    // Direction is the swipe direction; the tile that moves into the empty
-    // comes from the OPPOSITE side of the empty cell.
     if (dir === "right" && ec > 0)        target = er * n + (ec - 1);
     else if (dir === "left" && ec < n - 1) target = er * n + (ec + 1);
     else if (dir === "down" && er > 0)    target = (er - 1) * n + ec;
@@ -414,6 +495,7 @@ class Puzzle {
       this._updateMoves();
       this._startTimerIfNeeded();
       this._checkSolved();
+      this._markMovable();
     }
   }
 
@@ -456,6 +538,7 @@ class Puzzle {
     }
 
     this._placeAll(animated);
+    this._markMovable();
   }
 
   _swapNoAnim(idx) {
