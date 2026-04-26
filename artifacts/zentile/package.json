@@ -9,6 +9,6 @@
     "serve": "vite preview --config vite.config.js --host 0.0.0.0"
   },
   "devDependencies": {
-    "vite": "catalog:"
+    "vite": "^7.3.2"
   }
 }
