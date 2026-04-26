@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>/</loc>
+    <loc>https://zentile-puzzle.vercel.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
-    <loc>/privacy.html</loc>
+    <loc>https://zentile-puzzle.vercel.app/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
+
   <url>
-    <loc>/terms.html</loc>
+    <loc>https://zentile-puzzle.vercel.app/terms.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
+
 </urlset>
