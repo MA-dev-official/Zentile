@@ -19,23 +19,19 @@ const SIZES = [
 /* ---------------- App router (very small) ---------------- */
 let currentPage = null;
 
-function footerHTML() {
-  return `
-    <footer class="site-footer">
-      <span>© ${new Date().getFullYear()} Zentile</span>
-      <span class="foot-links">
-        <a href="/privacy.html">Privacy Policy</a>
-        <span aria-hidden="true">·</span>
-        <a href="/terms.html">Terms &amp; Conditions</a>
-      </span>
-    </footer>
-  `;
-}
-
 function setAboutVisible(visible) {
   const about = document.getElementById("about");
   if (about) about.hidden = !visible;
 }
+
+function setPageMode(mode) {
+  document.body.classList.toggle("page-home", mode === "home");
+  document.body.classList.toggle("page-game", mode === "game");
+}
+
+// Set the footer year once at load
+const yearEl = document.getElementById("footer-year");
+if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
 function renderHome() {
   cleanup();
@@ -73,9 +69,8 @@ function renderHome() {
 
       <div class="home-foot">Best times saved on this device · Keyboard arrows supported</div>
     </main>
-
-    ${footerHTML()}
   `;
+  setPageMode("home");
   setAboutVisible(true);
 
   // Attach handlers
@@ -119,6 +114,7 @@ let game = null;
 function renderGame(n) {
   cleanup();
   currentPage = "game";
+  setPageMode("game");
   setAboutVisible(false);
 
   app.innerHTML = `
@@ -157,8 +153,6 @@ function renderGame(n) {
         <div class="board" id="board" aria-label="${n} by ${n} sliding puzzle"></div>
       </div>
     </main>
-
-    ${footerHTML()}
   `;
 
   app.querySelector('[data-route="home"]').addEventListener("click", (e) => {
