@@ -32,50 +32,9 @@ function footerHTML() {
   `;
 }
 
-function aboutHTML() {
-  return `
-    <section class="about-section" aria-labelledby="about-title">
-      <span class="about-eyebrow">About Zentile</span>
-      <h2 id="about-title" class="about-title">Everything you need to know about Zentile</h2>
-
-      <div class="about-grid">
-        <article class="about-card">
-          <h3>What is Zentile?</h3>
-          <p>
-            Zentile is a modern, beautifully crafted version of the classic sliding tile puzzle — also known as the 15 puzzle. Your goal is simple: slide the numbered tiles around the board until they line up in ascending order, with the empty space resting at the top-left corner. There is nothing to install, no account to create, and no distractions to fight through. Just open Zentile in any browser, pick a board, and start solving.
-          </p>
-        </article>
-
-        <article class="about-card">
-          <h3>3 × 3, 4 × 4, 5 × 5 and 6 × 6 puzzles</h3>
-          <p>
-            Pick the board size that matches your mood. The 3 × 3 grid (8 tiles) is a quick warm-up, perfect for a one-minute brain break. The 4 × 4 grid (15 tiles) is the original 15 puzzle from the 1870s — a true classic. The 5 × 5 board (24 tiles) is a real test of patience and planning, while the 6 × 6 board (35 tiles) is reserved for expert solvers who love a serious challenge.
-          </p>
-        </article>
-
-        <article class="about-card">
-          <h3>Features built for smooth play</h3>
-          <p>
-            Zentile is fully responsive on phones, tablets, and desktops. Tap or click a tile to slide it, swipe and drag entire rows or columns with your finger or mouse, or use the arrow keys for precise keyboard control. Tiles glide with smooth, GPU-accelerated animations, and the layout recalculates instantly when you rotate or resize your screen. A clean dark theme keeps your eyes comfortable in any lighting.
-          </p>
-        </article>
-
-        <article class="about-card">
-          <h3>Why choose Zentile</h3>
-          <p>
-            Zentile is free forever, runs entirely in your browser, and works offline once loaded. There are no advertisements, no pop-ups, no sign-ups, and no tracking — your best times are saved locally on your device, never on a server. It is built for everyone: casual players seeking a moment of calm, parents introducing kids to a timeless classic, and competitive solvers chasing that perfect run.
-          </p>
-        </article>
-
-        <article class="about-card about-card--wide">
-          <h3>Puzzle benefits — logic, memory and speed</h3>
-          <p>
-            Sliding puzzles are pure logic with zero noise. Each move trains spatial reasoning and pattern recognition as you plan several steps ahead. Regular play has long been linked to sharper short-term memory, faster problem-solving, and improved focus. As you learn the classic solving techniques, you will notice your speed climbing and your move counts dropping — a small, satisfying win every single session. Pick a board above, take a breath, and slide your way to a clearer mind.
-          </p>
-        </article>
-      </div>
-    </section>
-  `;
+function setAboutVisible(visible) {
+  const about = document.getElementById("about");
+  if (about) about.hidden = !visible;
 }
 
 function renderHome() {
@@ -115,10 +74,9 @@ function renderHome() {
       <div class="home-foot">Best times saved on this device · Keyboard arrows supported</div>
     </main>
 
-    ${aboutHTML()}
-
     ${footerHTML()}
   `;
+  setAboutVisible(true);
 
   // Attach handlers
   app.querySelectorAll("[data-size]").forEach(el => {
@@ -161,6 +119,7 @@ let game = null;
 function renderGame(n) {
   cleanup();
   currentPage = "game";
+  setAboutVisible(false);
 
   app.innerHTML = `
     <header class="site-header">
