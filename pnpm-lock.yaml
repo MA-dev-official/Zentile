@@ -4,12 +4,6 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
-catalogs:
-  default:
-    vite:
-      specifier: ^7.3.2
-      version: 7.3.2
-
 overrides:
   esbuild: 0.27.3
 
@@ -24,7 +18,7 @@ importers:
   artifacts/zentile:
     devDependencies:
       vite:
-        specifier: 'catalog:'
+        specifier: ^7.3.2
         version: 7.3.2
 
 packages:
