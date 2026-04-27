@@ -56,7 +56,7 @@ function renderHome() {
 
     <main class="home">
       <span class="hero-eyebrow"><span class="hero-dot"></span> Sliding tile puzzle</span>
-      <h1 class="hero-title">Solve. Slide. Smile.</h1>
+      <h1 class="hero-title">Play the 15 Puzzle Online</h1>
       <p class="hero-sub">
         A beautifully crafted sliding puzzle that runs on any device.
         Pick a board size to begin — the empty tile starts at the top-left.
