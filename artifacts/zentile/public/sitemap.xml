@@ -8,6 +8,30 @@
   </url>
 
   <url>
+    <loc>https://zentile-puzzle.vercel.app/blog/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://zentile-puzzle.vercel.app/blog/history-of-15-puzzle.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://zentile-puzzle.vercel.app/blog/how-to-solve-15-puzzle.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://zentile-puzzle.vercel.app/blog/benefits-of-15-puzzle.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://zentile-puzzle.vercel.app/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>How to Solve the 15 Puzzle — Step-by-Step Strategy & Tips</title>
+    <meta name="description" content="Learn how to solve the 15 puzzle with a clean, step-by-step strategy: top row first, left column next, the last-two-tiles trick, plus tips for faster solves." />
+    <meta name="keywords" content="how to solve 15 puzzle, 15 puzzle strategy, 15 puzzle solution, 15 puzzle tips, sliding puzzle strategy, 15 puzzle algorithm, solve fifteen puzzle, 4x4 puzzle solution" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Zentile" />
+    <link rel="canonical" href="https://zentile-puzzle.vercel.app/blog/how-to-solve-15-puzzle.html" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any">
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How to Solve the 15 Puzzle — Step-by-Step Strategy & Tips" />
+    <meta property="og:description" content="A clean, no-memorisation strategy for solving the 15 puzzle every time, plus tips to lower your moves and time." />
+    <meta property="og:url" content="https://zentile-puzzle.vercel.app/blog/how-to-solve-15-puzzle.html" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Solve the 15 Puzzle",
+        "description": "A step-by-step strategy for solving the classic 4x4 sliding 15 puzzle.",
+        "step": [
+          { "@type": "HowToStep", "name": "Solve the top row", "text": "Place tile 1 first, then 2, then set up tiles 3 and 4 together." },
+          { "@type": "HowToStep", "name": "Solve the left column", "text": "Place tile 5, then set up tiles 9 and 13 together." },
+          { "@type": "HowToStep", "name": "Reduce and repeat", "text": "Treat the remaining 3x3 area as a smaller puzzle and apply the same row-then-column method." },
+          { "@type": "HowToStep", "name": "Finish the bottom 2x2", "text": "The last four tiles solve themselves with a short rotation." }
+        ]
+      }
+    </script>
+
+    <link rel="stylesheet" href="/blog/blog.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand-link" aria-label="Zentile home">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.4"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.4"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.4"/>
+            </svg>
+          </span>
+          <span>
+            <div class="brand-name">Zentile</div>
+            <div class="brand-tag">The modern 15 puzzle</div>
+          </span>
+        </a>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="/">Play</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </header>
+
+      <span class="eyebrow">Strategy</span>
+      <h1>How to Solve the 15 Puzzle: Step-by-Step Strategy</h1>
+      <p class="meta">A 7-minute read · Updated April 2026</p>
+      <p class="lede">There is no clever trick or memorised algorithm needed. Solving the 15 puzzle reliably comes down to one repeating idea: lock pieces in place from the outside in, and never disturb what you've already solved.</p>
+
+      <article>
+        <h2>The Goal</h2>
+        <p>You are arranging tiles 1 through 15 in numerical order, top to bottom, left to right, with the empty square ending up in one specific spot. On Zentile the empty square sits at the <strong>top-left</strong> in the solved state, so the layout reads:</p>
+        <div class="callout">
+          <p><strong>· &nbsp;1 &nbsp;2 &nbsp;3</strong><br>
+          <strong>4 &nbsp;5 &nbsp;6 &nbsp;7</strong><br>
+          <strong>8 &nbsp;9 &nbsp;10 &nbsp;11</strong><br>
+          <strong>12 &nbsp;13 &nbsp;14 &nbsp;15</strong></p>
+        </div>
+        <p>Different versions place the empty square in the bottom-right with tiles 1-15 starting at the top-left — the strategy is identical, just mirrored.</p>
+
+        <h2>The Big Idea: Solve in Layers</h2>
+        <p>Trying to solve everything at once is what gets beginners stuck. The trick is to split the 4&times;4 board into smaller pieces:</p>
+        <ol>
+          <li>First, lock the <strong>top row</strong> (tiles 1, 2, 3).</li>
+          <li>Then lock the <strong>left column</strong> (tiles 4, 8, 12).</li>
+          <li>That leaves a 3&times;3 block. Repeat the same row-then-column method on that block.</li>
+          <li>Finally you'll be left with a 2&times;2 block that solves itself with a short rotation.</li>
+        </ol>
+        <p>Once a tile is locked, you treat its square as if it doesn't exist anymore. You never disturb it again.</p>
+
+        <h2>Step 1: Solve the Top Row</h2>
+        <p>Place tile <strong>1</strong> in the upper-left spot first. Get it close, then slide it into position — easy. Now place tile <strong>2</strong> next to it. So far, so simple.</p>
+        <p>Tile <strong>3</strong> is the trap. If you put 3 directly into the top-right corner now, you'll have nowhere to drop tile 4 without bumping 3 out of place. Use this setup instead:</p>
+        <div class="callout">
+          <p><strong>Last-two-of-row trick:</strong> place tile 3 in the top-right corner and tile 4 directly below it (where 7 belongs). Then rotate the corner: slide them into place together. The top row locks cleanly without ever disturbing 1 or 2.</p>
+        </div>
+
+        <h2>Step 2: Solve the Left Column</h2>
+        <p>Same idea, rotated 90 degrees. Place tile <strong>4</strong> in the second row of the left column (it's already there if you used the trick above — perfect).</p>
+        <p>Now apply the last-two trick to tiles <strong>8</strong> and <strong>12</strong>: park 8 in the bottom-left corner and 12 directly to its right, then rotate the corner. Both tiles lock without disturbing the top row.</p>
+
+        <h2>Step 3: Reduce the Puzzle</h2>
+        <p>You now have a solved top row, a solved left column, and an untouched 3&times;3 block in the bottom-right. Mentally treat that 3&times;3 as a fresh, smaller 8-puzzle.</p>
+        <p>Repeat the same idea: solve <em>its</em> top row (tiles 5, 6, 7) using the corner-rotation trick again, then solve <em>its</em> left column (tile 9). What remains is a 2&times;2 block.</p>
+
+        <h2>Step 4: The Final 2&times;2</h2>
+        <p>The last four tiles — <strong>10, 11, 14, 15</strong> — and the empty square form a tiny 2&times;2 cycle. There are only two possibilities:</p>
+        <ul>
+          <li>The four tiles are in cyclic order — rotate them once or twice and you're done.</li>
+          <li>They aren't — and they never will be, because you solved everything correctly above. (If a 2&times;2 ever looks unsolvable here, something earlier slipped; restart that 3&times;3 reduction.)</li>
+        </ul>
+        <p>If you've followed the strategy from the start, the bottom-right corner falls into place in just a few clicks. The puzzle is solved.</p>
+
+        <h2>Common Beginner Mistakes</h2>
+        <ul>
+          <li><strong>Solving 3 before 4.</strong> Almost everyone tries to put tile 3 directly into the corner first. It works once or twice, then traps you. Use the corner-rotation setup.</li>
+          <li><strong>Disturbing locked tiles.</strong> Once a tile is in its solved position, route the empty square <em>around</em> it — never <em>through</em> it.</li>
+          <li><strong>Solving outside in.</strong> Some beginners try to lock the bottom row first because the highest numbers are intimidating. Always work top-to-bottom, left-to-right; it gives you the most empty space to maneuver.</li>
+          <li><strong>Spinning randomly.</strong> If you don't have a plan for the next two moves, stop and look. The puzzle rewards thinking far more than speed.</li>
+        </ul>
+
+        <h2>Tips for Faster Solves</h2>
+        <ol>
+          <li><strong>Lower your move count first, then your time.</strong> Speed only happens once your hand stops second-guessing your eyes.</li>
+          <li><strong>Look two moves ahead, not ten.</strong> Pros aren't computing a 60-move plan — they recognise small repeating patterns and chain them together.</li>
+          <li><strong>Use row swipes.</strong> On Zentile a single swipe can slide several tiles in one motion, which counts as a single fluid move and saves time.</li>
+          <li><strong>Practice the smallest board first.</strong> The 3&times;3 (8-puzzle) is the same strategy in miniature. Mastering it makes the 4&times;4 click.</li>
+          <li><strong>Solve daily, not in marathons.</strong> Five minutes a day for two weeks beats a single one-hour session for building muscle memory.</li>
+        </ol>
+
+        <h2>What About Bigger Boards?</h2>
+        <p>5&times;5 and 6&times;6 are not harder in <em>kind</em>, only in <em>scale</em>. The exact same row-then-column reduction works — you just do it more times. Each round of "solve top row, solve left column, reduce" peels one ring off the puzzle until you're back to a 2&times;2.</p>
+        <p>The cost is move count: a typical 4&times;4 solve takes 50-80 moves; a 6&times;6 can need 300+. Stick to the method, breathe, and don't rush. Bigger boards are mostly a test of patience.</p>
+
+        <div class="callout">
+          <strong>Quick recap:</strong>
+          <p>Top row → left column → reduce to 3&times;3 → repeat → finish the 2&times;2. The corner-rotation trick handles the last two tiles of every row and column.</p>
+        </div>
+
+        <div class="cta-card">
+          <h3>Try the strategy now</h3>
+          <p>Open Zentile, pick the 4&times;4 board, and walk through the steps above. The first clean solve usually arrives within a few attempts.</p>
+          <a href="/">Play Zentile →</a>
+        </div>
+      </article>
+
+      <section class="related" aria-label="Related articles">
+        <h2>Keep Reading</h2>
+        <div class="related-grid">
+          <a href="/blog/history-of-15-puzzle.html">
+            <strong>History of the 15 Puzzle</strong>
+            <span>Who really invented it, and the famous $1,000 prize.</span>
+          </a>
+          <a href="/blog/benefits-of-15-puzzle.html">
+            <strong>Benefits of Playing the 15 Puzzle</strong>
+            <span>What sliding tiles does for your brain.</span>
+          </a>
+        </div>
+      </section>
+
+      <footer>
+        <span>© 2026 Zentile</span>
+        <span>
+          <a href="/">Home</a> ·
+          <a href="/blog/">Blog</a> ·
+          <a href="/privacy.html">Privacy</a> ·
+          <a href="/terms.html">Terms</a>
+        </span>
+      </footer>
+    </div>
+  </body>
+</html>
