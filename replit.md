@@ -1,6 +1,6 @@
 # Zentile
 
-A fully client-side sliding-tile puzzle (15-puzzle) built with vanilla HTML, CSS, and JavaScript on Vite. No backend, no environment variables, no external CDN/Google assets.
+A fully client-side sliding-tile puzzle (15-puzzle) built with vanilla HTML, CSS, and JavaScript on Vite. No backend, no environment variables, no external CDN/Google assets...
 
 ## Structure
 
